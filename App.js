@@ -1,40 +1,17 @@
+import React from 'react'
+import { ColorList, ColorDetails} from './components'
+import { NavigationContainer} from "@react-navigation/native"
+import { createStackNavigator } from '@react-navigation/stack'
 
-import React, { useState } from 'react';
-import { StyleSheet, FlatList } from 'react-native';
-import { ColorButton, ColorForm } from './components'
-// import defaultColors from './data/default-color.json'
-import { useColor} from './hooks'
+const { Navigator, Screen } = createStackNavigator();
 
 export default function App() {
-  const [backgroundColor, setBackgroundColor] = useState("green")
-  const { colors, addColor}= useColor()
   return (
-    <>
-      <ColorForm onNewColor={addColor}/>
-      <FlatList
-        style={[styles.container, { backgroundColor}]}
-        data={colors}
-        renderItem={({item}) => {
-          console.log("item", item)
-          return (
-            <ColorButton 
-              key={item.id}
-              backgroundColor={item.color}
-              onPress={setBackgroundColor}
-            />
-          )
-        }}
-      />
-    </>
-  );
+    <NavigationContainer>
+      <Navigator>
+        <Screen name="Home" component={ColorList}/>
+        <Screen name="Details" component={ColorDetails}/>
+      </Navigator>
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: "flex"
-  },
-  wrapper: {
-    padding: 20
-  }
-});
